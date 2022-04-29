@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #in{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 6px;
+        gap: 20px;
+        background-color: red;
+    }
+    body{
+        background-color: black;
+    }
+    #dom{
+        background-color: greenyellow;
+        padding: 10px;
+        gap: 20px;
+    }
+</style>
+<body>
+    <div id="in">
+    <h1>Student Form</h1>
+    <div>
+        <label for="">Name:</label>
+        <input type="text" id="name">
+    </div>
+    <div>
+        <label for="">Number:</label>
+        <input type="text" id="num">
+    </div>
+    <div>
+        <label for="">City:</label>
+        <input type="text" id="city">
+    </div>
+    <div>
+        <button id="submit" onclick="saveData()">Submit</button>
+    </div>
+    </div>
+    <div id="dom">
+        <center><button id="show" onclick="showData()">Retrieve</button></center>
+        <center>
+            <table id="tab">
+                <tr>
+                    <th>Name</th>
+                    <th>Number</th>
+                    <th>City</th>
+                </tr>
+            </table>
+        </center>
+    </div>
+</body>
+<script>
+    var name1 = document.getElementById("name");
+    var num1 = document.getElementById("num");
+    var city1 = document.getElementById("city");
+    var table = document.getElementById("tab");
+    var dataArr = [];
+    function saveData(){
+        localStorage.removeItem("stdData");
+        var obj = new objcreator(name1.value,num1.value,city1.value);
+        dataArr.push(obj);
+        var json = JSON.stringify(dataArr);
+        localStorage.setItem("stdData",json);
+    }
+    function objcreator(name1, num1, city1){
+        this.name1 = name1;
+        this.num1 = num1;
+        this.city1 = city1;
+    }
+    function showData(){
+        var data = localStorage.getItem("stdData");
+        var dataObj = JSON.parse(data);
+        for(var i=0;i<dataObj.length;i++){
+            var tr = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.textContent = dataObj[i].name1
+            var th2 = document.createElement("th");
+            th2.textContent = dataObj[i].num1;            
+            var th3 = document.createElement("th");
+            th3.textContent = dataObj[i].city1
+            tr.append(th1,th2,th3);
+            table.append(tr);
+        }
+    }
+</script>
+</html>
